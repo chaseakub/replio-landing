@@ -92,7 +92,7 @@ function FoundersBanner() {
 
         {/* Value props — hidden on mobile */}
         <div className="hidden md:flex items-center gap-4">
-          {['$49/mo founding price', 'Locked in forever', 'Direct founder access'].map(t => (
+          {['$79/mo per location', 'Locked in forever', 'Direct founder access'].map(t => (
             <span key={t} className="flex items-center gap-1 text-[10px]" style={{ color: C.gray }}>
               <Check size={10} style={{ color: '#22c55e' }} /> {t}
             </span>
@@ -1004,8 +1004,8 @@ function FinalCTA() {
         </p>
 
         <div className="flex items-center justify-center gap-3 mb-10">
-          <span className="font-mono-jb text-3xl font-bold" style={{ color: '#22c55e' }}>$49</span>
-          <span className="font-mono-jb text-lg" style={{ color: C.muted, textDecoration: 'line-through' }}>$149</span>
+          <span className="font-mono-jb text-3xl font-bold" style={{ color: '#22c55e' }}>$79</span>
+          <span className="font-mono-jb text-lg" style={{ color: C.muted, textDecoration: 'line-through' }}>$99</span>
           <span className="font-body text-sm" style={{ color: C.muted }}>/mo — locked in forever</span>
         </div>
 
@@ -1111,7 +1111,7 @@ function StickyBottomBar() {
     >
       <div className="max-w-3xl mx-auto px-4 pb-4 flex items-center justify-between gap-4">
         <div className="hidden sm:block">
-          <div className="text-sm font-syne font-bold text-white">Founding Operators — <span style={{ color: '#22c55e' }}>$49/mo</span> <span style={{ color: C.muted, fontWeight: 400, fontSize: '0.7rem', textDecoration: 'line-through' }}>$149/mo</span></div>
+          <div className="text-sm font-syne font-bold text-white">Founding Operators — <span style={{ color: '#22c55e' }}>$79/mo</span> <span style={{ color: C.muted, fontWeight: 400, fontSize: '0.7rem', textDecoration: 'line-through' }}>$99/mo</span></div>
           <div className="text-[10px] font-mono-jb" style={{ color: C.muted }}>Lock in founding price forever · 34 spots left</div>
         </div>
         <div className="flex-1 sm:flex-none">
