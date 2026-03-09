@@ -6,10 +6,9 @@ import { createClient } from '@supabase/supabase-js'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-)
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://epjkxahwfhwnbilqhihy.supabase.co'
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamt4YWh3Zmh3bmJpbHFoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNTEyNzUsImV4cCI6MjA4ODYyNzI3NX0.6tQTIChhln_Y-CFOxw0FDe7RTiSLhhwbfrj3GmKDf3o'
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 // ─── Countdown Timer ─────────────────────────────────────────────────────────
 function useCountdown(targetDate) {
@@ -102,12 +101,6 @@ function WaitlistForm({ variant = 'hero' }) {
     if (!email.trim()) return
     setStatus('loading')
     setErrorMsg('')
-
-    if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
-      setStatus('error')
-      setErrorMsg('Missing Supabase config. Check env vars.')
-      return
-    }
 
     try {
       const { error } = await supabase.from('waitlist').insert({
