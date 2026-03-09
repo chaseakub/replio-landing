@@ -103,6 +103,12 @@ function WaitlistForm({ variant = 'hero' }) {
     setStatus('loading')
     setErrorMsg('')
 
+    if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY) {
+      setStatus('error')
+      setErrorMsg('Missing Supabase config. Check env vars.')
+      return
+    }
+
     try {
       const { error } = await supabase.from('waitlist').insert({
         email: email.trim().toLowerCase(),
@@ -111,6 +117,7 @@ function WaitlistForm({ variant = 'hero' }) {
       })
 
       if (error) {
+        console.error('Supabase error:', error.code, error.message, error.details)
         if (error.code === '23505') {
           setStatus('success')
           setErrorMsg("You're already on the list!")
@@ -121,8 +128,9 @@ function WaitlistForm({ variant = 'hero' }) {
         setStatus('success')
       }
     } catch (err) {
+      console.error('Waitlist error:', err)
       setStatus('error')
-      setErrorMsg('Something went wrong. Try again.')
+      setErrorMsg(err?.message || err?.code || 'Something went wrong. Try again.')
     }
   }
 
