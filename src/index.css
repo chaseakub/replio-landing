@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto; /* GSAP controls scroll */
+}
+
+body {
+  background-color: #140606;
+  color: #FFFFFF;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: none; /* custom cursor active */
+}
+
+/* ─── Custom Cursor ─── */
+#cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background: #E4002B;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  mix-blend-mode: normal;
+}
+
+#cursor.expanded {
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+}
+
+/* ─── Scroll Progress Bar ─── */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: #E4002B;
+  z-index: 9998;
+  width: 0%;
+  transition: width 0.05s linear;
+  box-shadow: 0 0 8px #E4002B;
+}
+
+/* ─── Noise Overlay ─── */
+#noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9990;
+  opacity: 0.03;
+}
+
+/* ─── GSAP Pinned sections ─── */
+.pin-spacer {
+  pointer-events: none;
+}
+
+/* ─── Stat counters ─── */
+.stat-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
+/* ─── Red glow button ─── */
+.btn-replio {
+  background: #E4002B;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 16px 36px;
+  border: none;
+  cursor: none;
+  transition: box-shadow 0.25s ease, transform 0.1s ease;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+
+.btn-replio:hover {
+  box-shadow: 0 0 28px #E4002B, 0 0 60px rgba(228, 0, 43, 0.3);
+}
+
+.btn-replio:active {
+  transform: scale(0.97);
+}
+
+/* ─── Platform card glow ─── */
+.platform-card {
+  background: #1F0808;
+  border: 1px solid rgba(228, 0, 43, 0.15);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.platform-card:hover {
+  border-color: rgba(228, 0, 43, 0.5);
+  box-shadow: 0 0 24px rgba(228, 0, 43, 0.15);
+  transform: translateY(-4px);
+}
+
+/* ─── Scanline subtle texture ─── */
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+}
+
+/* ─── Pillar cards ─── */
+.pillar-card {
+  background: #1F0808;
+  border: 1px solid rgba(228, 0, 43, 0.12);
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+/* ─── Typing animation ─── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ─── Red divider ─── */
+.red-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #E4002B, transparent);
+}
+
+/* ─── Utility ─── */
+.font-syne { font-family: 'Syne', sans-serif; }
+.font-playfair { font-family: 'Playfair Display', serif; }
+.font-mono-jb { font-family: 'JetBrains Mono', monospace; }
