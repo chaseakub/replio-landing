@@ -2,13 +2,27 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { AlertTriangle, Bell, CheckCircle, ChevronRight, Star, Zap, Check, Loader2 } from 'lucide-react'
-import { createClient } from '@supabase/supabase-js'
-
 gsap.registerPlugin(ScrollTrigger)
 
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || 'https://epjkxahwfhwnbilqhihy.supabase.co'
-const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamt4YWh3Zmh3bmJpbHFoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNTEyNzUsImV4cCI6MjA4ODYyNzI3NX0.6tQTIChhln_Y-CFOxw0FDe7RTiSLhhwbfrj3GmKDf3o'
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
+const SUPABASE_URL = 'https://epjkxahwfhwnbilqhihy.supabase.co'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamt4YWh3Zmh3bmJpbHFoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNTEyNzUsImV4cCI6MjA4ODYyNzI3NX0.6tQTIChhln_Y-CFOxw0FDe7RTiSLhhwbfrj3GmKDf3o'
+
+async function insertWaitlist({ email, name }) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SUPABASE_KEY,
+      'Authorization': `Bearer ${SUPABASE_KEY}`,
+      'Prefer': 'return=minimal',
+    },
+    body: JSON.stringify({ email, name, source: 'landing_page' }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.message || `Error ${res.status}`)
+  }
+}
 
 // ─── Countdown Timer ─────────────────────────────────────────────────────────
 function useCountdown(targetDate) {
@@ -103,27 +117,20 @@ function WaitlistForm({ variant = 'hero' }) {
     setErrorMsg('')
 
     try {
-      const { error } = await supabase.from('waitlist').insert({
+      await insertWaitlist({
         email: email.trim().toLowerCase(),
         name: name.trim() || null,
-        source: 'landing_page',
       })
-
-      if (error) {
-        console.error('Supabase error:', error.code, error.message, error.details)
-        if (error.code === '23505') {
-          setStatus('success')
-          setErrorMsg("You're already on the list!")
-        } else {
-          throw error
-        }
-      } else {
-        setStatus('success')
-      }
+      setStatus('success')
     } catch (err) {
       console.error('Waitlist error:', err)
-      setStatus('error')
-      setErrorMsg(err?.message || err?.code || 'Something went wrong. Try again.')
+      if (err.message && err.message.includes('duplicate')) {
+        setStatus('success')
+        setErrorMsg("You're already on the list!")
+      } else {
+        setStatus('error')
+        setErrorMsg(err?.message || 'Something went wrong. Try again.')
+      }
     }
   }
 
