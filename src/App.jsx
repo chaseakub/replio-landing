@@ -11,6 +11,81 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_ANON_KEY
 )
 
+// ─── Countdown Timer ─────────────────────────────────────────────────────────
+function useCountdown(targetDate) {
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft())
+  function getTimeLeft() {
+    const diff = new Date(targetDate) - new Date()
+    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+    }
+  }
+  useEffect(() => {
+    const id = setInterval(() => setTimeLeft(getTimeLeft()), 1000)
+    return () => clearInterval(id)
+  }, [])
+  return timeLeft
+}
+
+// ─── Founding Operators Banner ───────────────────────────────────────────────
+function FoundersBanner() {
+  // Countdown to April 1, 2026 (end of founding window)
+  const { days, hours, minutes, seconds } = useCountdown('2026-04-01T00:00:00')
+  const [spotsLeft] = useState(34)
+
+  const digitBox = (val, label) => (
+    <div className="flex flex-col items-center">
+      <div className="font-mono-jb font-bold text-2xl md:text-3xl px-3 py-1.5 rounded-lg"
+        style={{ background: '#E4002B15', color: '#fff', border: '1px solid #E4002B30', minWidth: 56, textAlign: 'center' }}>
+        {String(val).padStart(2, '0')}
+      </div>
+      <span className="text-[9px] uppercase tracking-widest mt-1.5" style={{ color: C.muted }}>{label}</span>
+    </div>
+  )
+
+  return (
+    <div className="w-full relative z-20 py-4 px-6" style={{ background: 'linear-gradient(180deg, #1a0505 0%, transparent 100%)' }}>
+      <div className="max-w-3xl mx-auto flex flex-col items-center gap-4">
+        {/* Badge */}
+        <div className="flex items-center gap-3">
+          <div className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-syne"
+            style={{ background: '#E4002B', color: '#fff', animation: 'pulse 2s infinite' }}>
+            Founding Operators Program
+          </div>
+          <div className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-mono-jb"
+            style={{ background: '#E4002B15', color: C.red, border: '1px solid #E4002B40' }}>
+            {spotsLeft} / 50 spots left
+          </div>
+        </div>
+
+        {/* Countdown */}
+        <div className="flex items-center gap-2 md:gap-3">
+          {digitBox(days, 'Days')}
+          <span className="text-xl font-bold" style={{ color: C.red }}>:</span>
+          {digitBox(hours, 'Hours')}
+          <span className="text-xl font-bold" style={{ color: C.red }}>:</span>
+          {digitBox(minutes, 'Min')}
+          <span className="text-xl font-bold" style={{ color: C.red }}>:</span>
+          {digitBox(seconds, 'Sec')}
+        </div>
+
+        {/* Value props */}
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
+          {['Locked-in pricing for life', 'Direct access to the founder', 'Shape the product roadmap'].map(t => (
+            <span key={t} className="flex items-center gap-1.5 text-[11px]" style={{ color: C.gray }}>
+              <Check size={12} style={{ color: '#22c55e' }} /> {t}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Waitlist Form Component ─────────────────────────────────────────────────
 function WaitlistForm({ variant = 'hero' }) {
   const [email, setEmail] = useState('')
@@ -370,15 +445,17 @@ function Hero({ sectionRef }) {
       <div ref={redLineRef}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: C.red, transformOrigin: 'left' }} />
 
-      <nav style={{ position: 'absolute', top: 0, left: 0, right: 0 }}
-        className="flex items-center justify-between px-8 py-5">
-        <span className="font-syne font-bold text-sm tracking-widest uppercase" style={{ color: C.red }}>
-          Replio
-        </span>
-        <WaitlistForm variant="nav" />
-      </nav>
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}>
+        <nav className="flex items-center justify-between px-8 py-5">
+          <span className="font-syne font-bold text-sm tracking-widest uppercase" style={{ color: C.red }}>
+            Replio
+          </span>
+          <WaitlistForm variant="nav" />
+        </nav>
+        <FoundersBanner />
+      </div>
 
-      <div className="text-center max-w-5xl w-full relative z-10">
+      <div className="text-center max-w-5xl w-full relative z-10" style={{ marginTop: 80 }}>
         <div
           ref={titleRef}
           className="font-syne font-extrabold leading-none tracking-tight mb-6 select-none"

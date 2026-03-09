@@ -110,6 +110,12 @@ input {
   cursor: text;
 }
 
+/* ─── Pulse animation for founding badge ─── */
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(228, 0, 43, 0.4); }
+  50% { box-shadow: 0 0 16px 4px rgba(228, 0, 43, 0.3); }
+}
+
 /* ─── Platform card glow ─── */
 .platform-card {
   background: #1F0808;
