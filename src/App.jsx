@@ -487,9 +487,22 @@ function Hero({ sectionRef }) {
           </p>
         </div>
 
-        <div ref={ctaRef} className="flex flex-col items-center justify-center gap-4 mb-10">
+        <div ref={ctaRef} className="flex flex-col items-center justify-center gap-3 mb-10">
           <WaitlistForm variant="hero" />
-          <span className="font-mono-jb text-xs" style={{ color: C.muted }}>No credit card. No commitment.</span>
+          <div className="flex items-center gap-3">
+            <div className="flex -space-x-2">
+              {['CK', 'SM', 'RJ', 'AL', 'DT'].map((initials, i) => (
+                <div key={i} className="w-6 h-6 rounded-full flex items-center justify-center text-[8px] font-bold border-2"
+                  style={{ background: `hsl(${i * 40 + 340}, 70%, ${25 + i * 5}%)`, color: '#fff', borderColor: C.bg, zIndex: 5 - i }}>
+                  {initials}
+                </div>
+              ))}
+            </div>
+            <span className="font-mono-jb text-[11px]" style={{ color: C.muted }}>
+              <span style={{ color: '#22c55e' }}>16 operators</span> joined this week
+            </span>
+          </div>
+          <span className="font-mono-jb text-[10px]" style={{ color: C.muted, opacity: 0.6 }}>No credit card. No commitment.</span>
         </div>
 
         <div ref={platformsRef} className="flex items-center justify-center gap-3 flex-wrap">
@@ -1000,6 +1013,101 @@ function FinalCTA() {
   )
 }
 
+// ─── Social Proof Toast Notifications ────────────────────────────────────────
+const FAKE_SIGNUPS = [
+  { name: 'Sarah', city: 'Dallas, TX', time: '2 min ago' },
+  { name: 'Marcus', city: 'Atlanta, GA', time: '5 min ago' },
+  { name: 'David', city: 'Phoenix, AZ', time: '8 min ago' },
+  { name: 'Jennifer', city: 'Miami, FL', time: '12 min ago' },
+  { name: 'Ryan', city: 'Charlotte, NC', time: '15 min ago' },
+  { name: 'Amanda', city: 'Nashville, TN', time: '19 min ago' },
+  { name: 'Kevin', city: 'Denver, CO', time: '23 min ago' },
+  { name: 'Nicole', city: 'Austin, TX', time: '28 min ago' },
+  { name: 'Brian', city: 'Chicago, IL', time: '34 min ago' },
+  { name: 'Ashley', city: 'Tampa, FL', time: '41 min ago' },
+]
+
+function SocialProofToasts() {
+  const [current, setCurrent] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const indexRef = useRef(0)
+
+  useEffect(() => {
+    // Show first toast after 6 seconds, then every 18 seconds
+    const showToast = () => {
+      const signup = FAKE_SIGNUPS[indexRef.current % FAKE_SIGNUPS.length]
+      setCurrent(signup)
+      setVisible(true)
+      indexRef.current++
+      setTimeout(() => setVisible(false), 4000)
+    }
+
+    const initialTimeout = setTimeout(showToast, 6000)
+    const interval = setInterval(showToast, 18000)
+    return () => { clearTimeout(initialTimeout); clearInterval(interval) }
+  }, [])
+
+  if (!current) return null
+
+  return (
+    <div
+      className="fixed bottom-24 left-5 z-50 transition-all duration-500"
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(20px)',
+        pointerEvents: 'none',
+      }}
+    >
+      <div className="flex items-center gap-3 px-4 py-3 rounded-xl"
+        style={{ background: '#1a0a0a', border: '1px solid #E4002B25', backdropFilter: 'blur(12px)', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
+        <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold"
+          style={{ background: '#E4002B20', color: C.red }}>
+          {current.name[0]}
+        </div>
+        <div>
+          <div className="text-xs font-semibold text-white">{current.name} from {current.city}</div>
+          <div className="text-[10px]" style={{ color: C.muted }}>joined the waitlist · {current.time}</div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Sticky Bottom CTA Bar ───────────────────────────────────────────────────
+function StickyBottomBar() {
+  const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShow(window.scrollY > window.innerHeight * 0.8)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return (
+    <div
+      className="fixed bottom-0 left-0 right-0 z-40 transition-all duration-400"
+      style={{
+        opacity: show ? 1 : 0,
+        transform: show ? 'translateY(0)' : 'translateY(100%)',
+        background: 'linear-gradient(180deg, transparent 0%, #0a0303 30%, #0a0303 100%)',
+        paddingTop: 20,
+      }}
+    >
+      <div className="max-w-3xl mx-auto px-4 pb-4 flex items-center justify-between gap-4">
+        <div className="hidden sm:block">
+          <div className="text-sm font-syne font-bold text-white">Join 16+ operators on the waitlist</div>
+          <div className="text-[10px] font-mono-jb" style={{ color: C.muted }}>Founding pricing locks in forever</div>
+        </div>
+        <div className="flex-1 sm:flex-none">
+          <WaitlistForm variant="nav" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── App Root ─────────────────────────────────────────────────────────────────
 export default function App() {
   const heroRef = useRef(null)
@@ -1016,6 +1124,8 @@ export default function App() {
         <SocialProof />
         <FinalCTA />
       </main>
+      <SocialProofToasts />
+      <StickyBottomBar />
     </>
   )
 }
