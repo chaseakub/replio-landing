@@ -92,7 +92,7 @@ function FoundersBanner() {
 
         {/* Value props — hidden on mobile */}
         <div className="hidden md:flex items-center gap-4">
-          {['Locked-in pricing', 'Founder access', 'Shape the roadmap'].map(t => (
+          {['$49/mo founding price', 'Locked in forever', 'Direct founder access'].map(t => (
             <span key={t} className="flex items-center gap-1 text-[10px]" style={{ color: C.gray }}>
               <Check size={10} style={{ color: '#22c55e' }} /> {t}
             </span>
@@ -425,12 +425,12 @@ function Hero({ sectionRef }) {
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top top',
-        end: '+=100%',
+        end: '+=50%',
         pin: true,
         pinSpacing: true,
         onUpdate: (self) => {
           gsap.to(sectionRef.current, {
-            opacity: 1 - self.progress * 1.6,
+            opacity: 1 - self.progress * 2,
             scale: 1 - self.progress * 0.05,
             duration: 0.1,
           })
@@ -998,10 +998,16 @@ function FinalCTA() {
           One dashboard. Every platform. Zero missed guests.
         </p>
 
-        <p className="font-body text-base mb-10 max-w-xl mx-auto" style={{ color: C.muted }}>
+        <p className="font-body text-base mb-6 max-w-xl mx-auto" style={{ color: C.muted }}>
           Join a founding group of serious QSR operators getting early access.
           Built by someone who ran the same operation you do.
         </p>
+
+        <div className="flex items-center justify-center gap-3 mb-10">
+          <span className="font-mono-jb text-3xl font-bold" style={{ color: '#22c55e' }}>$49</span>
+          <span className="font-mono-jb text-lg" style={{ color: C.muted, textDecoration: 'line-through' }}>$149</span>
+          <span className="font-body text-sm" style={{ color: C.muted }}>/mo — locked in forever</span>
+        </div>
 
         <WaitlistForm variant="hero" />
 
@@ -1105,8 +1111,8 @@ function StickyBottomBar() {
     >
       <div className="max-w-3xl mx-auto px-4 pb-4 flex items-center justify-between gap-4">
         <div className="hidden sm:block">
-          <div className="text-sm font-syne font-bold text-white">Join 16+ operators on the waitlist</div>
-          <div className="text-[10px] font-mono-jb" style={{ color: C.muted }}>Founding pricing locks in forever</div>
+          <div className="text-sm font-syne font-bold text-white">Founding Operators — <span style={{ color: '#22c55e' }}>$49/mo</span> <span style={{ color: C.muted, fontWeight: 400, fontSize: '0.7rem', textDecoration: 'line-through' }}>$149/mo</span></div>
+          <div className="text-[10px] font-mono-jb" style={{ color: C.muted }}>Lock in founding price forever · 34 spots left</div>
         </div>
         <div className="flex-1 sm:flex-none">
           <WaitlistForm variant="nav" />
