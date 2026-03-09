@@ -66,7 +66,7 @@ body {
 
 /* ─── GSAP Pinned sections ─── */
 .pin-spacer {
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 /* ─── Stat counters ─── */
@@ -96,6 +96,18 @@ body {
 
 .btn-replio:active {
   transform: scale(0.97);
+}
+
+/* ─── Ensure form elements are interactive ─── */
+input, button, form {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+input {
+  cursor: text;
 }
 
 /* ─── Platform card glow ─── */
