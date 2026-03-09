@@ -48,36 +48,40 @@ function FoundersBanner() {
   )
 
   return (
-    <div className="w-full relative z-20 py-4 px-6" style={{ background: 'linear-gradient(180deg, #1a0505 0%, transparent 100%)' }}>
-      <div className="max-w-3xl mx-auto flex flex-col items-center gap-4">
-        {/* Badge */}
-        <div className="flex items-center gap-3">
-          <div className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-syne"
+    <div className="w-full py-3 px-4" style={{ background: 'linear-gradient(180deg, #1a050588 0%, transparent 100%)' }}>
+      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6">
+        {/* Badge + Spots */}
+        <div className="flex items-center gap-2">
+          <div className="px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest font-syne"
             style={{ background: '#E4002B', color: '#fff', animation: 'pulse 2s infinite' }}>
-            Founding Operators Program
+            Founding Operators
           </div>
-          <div className="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-mono-jb"
+          <div className="px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider font-mono-jb"
             style={{ background: '#E4002B15', color: C.red, border: '1px solid #E4002B40' }}>
-            {spotsLeft} / 50 spots left
+            {spotsLeft}/50 left
           </div>
         </div>
 
-        {/* Countdown */}
-        <div className="flex items-center gap-2 md:gap-3">
-          {digitBox(days, 'Days')}
-          <span className="text-xl font-bold" style={{ color: C.red }}>:</span>
-          {digitBox(hours, 'Hours')}
-          <span className="text-xl font-bold" style={{ color: C.red }}>:</span>
-          {digitBox(minutes, 'Min')}
-          <span className="text-xl font-bold" style={{ color: C.red }}>:</span>
-          {digitBox(seconds, 'Sec')}
+        {/* Compact Countdown */}
+        <div className="flex items-center gap-1.5">
+          {[
+            [days, 'd'], [hours, 'h'], [minutes, 'm'], [seconds, 's']
+          ].map(([val, label], i) => (
+            <div key={label} className="flex items-center gap-1.5">
+              <div className="font-mono-jb font-bold text-sm px-2 py-1 rounded"
+                style={{ background: '#E4002B12', color: '#fff', border: '1px solid #E4002B25', minWidth: 36, textAlign: 'center' }}>
+                {String(val).padStart(2, '0')}<span className="text-[9px] ml-0.5" style={{ color: C.muted }}>{label}</span>
+              </div>
+              {i < 3 && <span className="text-xs font-bold" style={{ color: '#E4002B40' }}>:</span>}
+            </div>
+          ))}
         </div>
 
-        {/* Value props */}
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-1">
-          {['Locked-in pricing for life', 'Direct access to the founder', 'Shape the product roadmap'].map(t => (
-            <span key={t} className="flex items-center gap-1.5 text-[11px]" style={{ color: C.gray }}>
-              <Check size={12} style={{ color: '#22c55e' }} /> {t}
+        {/* Value props — hidden on mobile */}
+        <div className="hidden md:flex items-center gap-4">
+          {['Locked-in pricing', 'Founder access', 'Shape the roadmap'].map(t => (
+            <span key={t} className="flex items-center gap-1 text-[10px]" style={{ color: C.gray }}>
+              <Check size={10} style={{ color: '#22c55e' }} /> {t}
             </span>
           ))}
         </div>
@@ -432,7 +436,7 @@ function Hero({ sectionRef }) {
     <section
       ref={sectionRef}
       style={{ background: C.bg, minHeight: '100dvh', position: 'relative', overflow: 'hidden' }}
-      className="flex flex-col items-center justify-center px-6"
+      className="flex flex-col items-center px-6"
     >
       <div style={{
         position: 'absolute', top: '50%', left: '50%',
@@ -445,24 +449,29 @@ function Hero({ sectionRef }) {
       <div ref={redLineRef}
         style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: C.red, transformOrigin: 'left' }} />
 
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20 }}>
-        <nav className="flex items-center justify-between px-8 py-5">
-          <span className="font-syne font-bold text-sm tracking-widest uppercase" style={{ color: C.red }}>
-            Replio
-          </span>
-          <WaitlistForm variant="nav" />
-        </nav>
+      {/* Nav */}
+      <nav className="flex items-center justify-between px-8 py-4 w-full relative z-20">
+        <span className="font-syne font-bold text-sm tracking-widest uppercase" style={{ color: C.red }}>
+          Replio
+        </span>
+        <WaitlistForm variant="nav" />
+      </nav>
+
+      {/* Founders Banner */}
+      <div className="w-full relative z-20">
         <FoundersBanner />
       </div>
 
-      <div className="text-center max-w-5xl w-full relative z-10" style={{ marginTop: 80 }}>
-        <div
-          ref={titleRef}
-          className="font-syne font-extrabold leading-none tracking-tight mb-6 select-none"
-          style={{ fontSize: 'clamp(3rem, 13.5vw, 10rem)', color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 0.9 }}
-        >
-          REPLIO
-        </div>
+      {/* Hero Content — fills remaining space, centered */}
+      <div className="flex-1 flex flex-col items-center justify-center w-full">
+        <div className="text-center max-w-5xl w-full relative z-10">
+          <div
+            ref={titleRef}
+            className="font-syne font-extrabold leading-none tracking-tight mb-4 select-none"
+            style={{ fontSize: 'clamp(2.5rem, 11vw, 8rem)', color: '#FFFFFF', letterSpacing: '-0.02em', lineHeight: 0.9 }}
+          >
+            REPLIO
+          </div>
 
         <div ref={taglineRef} className="mb-4">
           <p className="font-syne font-bold text-xl md:text-3xl tracking-tight" style={{ color: C.gray }}>
@@ -478,7 +487,7 @@ function Hero({ sectionRef }) {
           </p>
         </div>
 
-        <div ref={ctaRef} className="flex flex-col items-center justify-center gap-4 mb-16">
+        <div ref={ctaRef} className="flex flex-col items-center justify-center gap-4 mb-10">
           <WaitlistForm variant="hero" />
           <span className="font-mono-jb text-xs" style={{ color: C.muted }}>No credit card. No commitment.</span>
         </div>
@@ -491,6 +500,7 @@ function Hero({ sectionRef }) {
               <span>{p.name}</span>
             </div>
           ))}
+        </div>
         </div>
       </div>
 
