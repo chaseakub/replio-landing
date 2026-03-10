@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { AlertTriangle, Bell, CheckCircle, ChevronRight, Star, Zap, Check, Loader2 } from 'lucide-react'
+import { Analytics } from '@vercel/analytics/react'
 gsap.registerPlugin(ScrollTrigger)
 
 // Replace this with your actual Stripe Payment Link after creating it at https://dashboard.stripe.com/payment-links
@@ -982,7 +983,7 @@ function SocialProof() {
   )
 }
 
-// ─── Final CTA ────────────────────────────────────────────────────────────────
+// ─── Final CTA ────────────────────────────────��───────────────────────────────
 function FinalCTA() {
   const sectionRef = useRef(null)
   const innerRef = useRef(null)
@@ -1146,7 +1147,7 @@ function StickyBottomBar() {
   )
 }
 
-// ─── App Root ─────────────────────────────────────────────────────────────────
+// ─── App Root ──────────────────���──────────────────────────────────────────────
 export default function App() {
   const heroRef = useRef(null)
 
@@ -1164,6 +1165,7 @@ export default function App() {
       </main>
       <SocialProofToasts />
       <StickyBottomBar />
+      <Analytics />
     </>
   )
 }
