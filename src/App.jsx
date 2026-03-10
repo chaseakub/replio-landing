@@ -490,8 +490,9 @@ function Hero({ sectionRef }) {
         </div>
 
         <div ref={subTagRef} className="mb-10">
-          <p className="font-playfair italic text-base md:text-lg" style={{ color: C.muted }}>
-            Built by an Operating Partner. For operators.
+          <p className="font-body text-base md:text-lg leading-relaxed max-w-2xl mx-auto" style={{ color: C.muted }}>
+            Stop losing guests to unanswered reviews. Replio monitors Google, Yelp, Facebook, DoorDash & more — then drafts personalized AI responses you approve in one click.{' '}
+            <span style={{ color: C.gray }}>Built by a Multi-Unit Chick-fil-A Operating Partner who got tired of the chaos.</span>
           </p>
         </div>
 
@@ -564,12 +565,11 @@ function Problem() {
         <div ref={headingRef}>
           <h2 className="font-syne font-extrabold leading-none mb-4"
             style={{ fontSize: 'clamp(2.5rem, 7vw, 6rem)', color: '#fff', letterSpacing: '-0.02em' }}>
-            You're finding out about problems
-            <span style={{ color: C.red }}> from a 1-star review.</span>
+            Every hour you don't respond,
+            <span style={{ color: C.red }}> you lose a guest forever.</span>
           </h2>
           <p className="font-body text-lg mb-12 max-w-2xl" style={{ color: C.muted }}>
-            Right now, your guests are leaving reviews across 5 different platforms. You're juggling 7 apps,
-            missing urgent complaints, and responding 3 days late — if at all. That silence is costing you revenue.
+            A guest left a 1-star review 3 days ago. They've already told 10 friends. You just found it between Google, Yelp, DoorDash, and 4 other apps. Sound familiar? That silence is costing you <span style={{ color: C.red, fontWeight: 600 }}>$8,000+ per star</span> on Yelp alone.
           </p>
         </div>
 
@@ -587,9 +587,9 @@ function Problem() {
 
         <div ref={painRef} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
-            { icon: <AlertTriangle size={20} style={{ color: C.red }} />, text: 'You\'re switching between Google, Yelp, Facebook, DoorDash, and TripAdvisor — every single day.' },
-            { icon: <Bell size={20} style={{ color: C.red }} />, text: 'An angry guest left 3 days ago. You just found out. Too late to fix it.' },
-            { icon: <Star size={20} style={{ color: C.red }} />, text: 'Generic copy-paste responses signal you don\'t care. They make it worse.' },
+            { icon: <AlertTriangle size={20} style={{ color: C.red }} />, text: '7 platforms. 7 logins. 7 apps open every morning before you\'ve even started your day. You\'re spending 45+ minutes just checking reviews.' },
+            { icon: <Bell size={20} style={{ color: C.red }} />, text: 'The average operator takes 72 hours to respond. By then, the guest has told 10 friends and decided they\'re never coming back.' },
+            { icon: <Star size={20} style={{ color: C.red }} />, text: '"Sorry for the inconvenience" — your guests can smell a copy-paste response. It makes a bad experience worse. They want to hear from the person who runs the place.' },
           ].map((p, i) => (
             <div key={i} className="platform-card p-5 rounded-sm flex gap-3">
               <div className="mt-1 flex-shrink-0">{p.icon}</div>
@@ -643,20 +643,20 @@ function Pillars() {
   const cards = [
     {
       number: '01', label: 'Universal Dashboard',
-      headline: 'Stop switching between 7 apps. One place. Every platform.',
-      body: 'Google, Yelp, Facebook, DoorDash, and TripAdvisor — all your reviews, all your responses, all your analytics in a single operator-grade dashboard. Your command center.',
+      headline: '7 platforms. One screen. Open it and know everything.',
+      body: 'Every review from Google, Yelp, Facebook, DoorDash, TripAdvisor, Uber Eats, and Grubhub — in one feed. Filter by platform, rating, or urgency. Your 45-minute morning routine becomes 2 minutes.',
       visual: <DashboardMock />,
     },
     {
       number: '02', label: 'AI Response Engine',
-      headline: 'Sounds like you wrote it. Because it understands how you think.',
-      body: 'Our HEARD-based AI reads every review and drafts a personalized, human response instantly. You approve it in one click. It handles the words. You handle the operation.',
+      headline: '3 AI drafts in 10 seconds. Each one sounds like you wrote it.',
+      body: 'Replio\'s AI reads the review, identifies the specific issue, and drafts 3 responses using the HEARD framework — Warm, Professional, or Brief. Pick one. Tweak it if you want. Approve. Done. 10 minutes of stress becomes 10 seconds of action.',
       visual: <AIResponseMock typedText={typedText} />,
     },
     {
       number: '03', label: 'Zero Missed Guests',
-      headline: 'Never find out about a critical problem from a 1-star review again.',
-      body: 'Urgent alerts hit your phone the moment a serious issue surfaces. Your full digest takes under 2 minutes. You know what\'s happening before it costs you.',
+      headline: 'A 1-star drops? You know in minutes. Not days.',
+      body: 'Urgent alerts fire the moment a 1 or 2-star review hits any platform. Daily digest delivers your full review briefing in under 2 minutes. No guest waits 72 hours to hear from you ever again.',
       visual: <HEARDMock />,
     },
   ]
@@ -902,9 +902,7 @@ function SocialProof() {
         <div className="proof-item rounded-sm p-8 mb-8" style={{ background: C.card, border: `1px solid rgba(228,0,43,0.15)`, position: 'relative' }}>
           <div style={{ position: 'absolute', top: 24, left: 24, fontFamily: 'Playfair Display', fontSize: '5rem', color: C.darkred, lineHeight: 0.5, opacity: 0.4 }}>"</div>
           <p className="font-playfair italic text-xl md:text-2xl leading-relaxed mb-6" style={{ color: C.gray, maxWidth: 700, paddingTop: 24 }}>
-            I built Replio because I was the operator spending 45 minutes a day across five apps,
-            responding to reviews three days late and missing the ones that mattered most.
-            No one had built this for QSR operators — so I did.
+            I used to respond to reviews at 11pm. Sitting on the couch with 7 apps open, trying to write something thoughtful to a guest who had a bad experience 3 days ago. 3 days. That guest already told their friends. Already decided not to come back. That's not sustainable. So I built the tool I wish existed.
           </p>
           <div className="flex items-center gap-4">
             <div style={{
@@ -995,12 +993,12 @@ function FinalCTA() {
         </h2>
 
         <p className="font-playfair italic text-xl md:text-2xl mb-4" style={{ color: C.gray }}>
-          One dashboard. Every platform. Zero missed guests.
+          Stop losing guests to silence.
         </p>
 
         <p className="font-body text-base mb-6 max-w-xl mx-auto" style={{ color: C.muted }}>
-          Join a founding group of serious QSR operators getting early access.
-          Built by someone who ran the same operation you do.
+          Birdeye charges $299/mo. Podium charges $449/mo. Neither was built for QSR operators.
+          Replio was built by one — and founding operators lock in <span style={{ color: '#22c55e', fontWeight: 600 }}>$99/mo forever</span>.
         </p>
 
         <div className="flex items-center justify-center gap-3 mb-10">
@@ -1012,7 +1010,7 @@ function FinalCTA() {
         <WaitlistForm variant="hero" />
 
         <div className="mt-6 font-mono-jb text-xs" style={{ color: C.muted }}>
-          ReplioHQ.com · Built by operators. For operators.
+          34 founding spots left · Price goes up when they're gone
         </div>
 
         <div className="red-divider mt-16" />
