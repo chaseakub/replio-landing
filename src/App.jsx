@@ -4,6 +4,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { AlertTriangle, Bell, CheckCircle, ChevronRight, Star, Zap, Check, Loader2 } from 'lucide-react'
 gsap.registerPlugin(ScrollTrigger)
 
+// Replace this with your actual Stripe Payment Link after creating it at https://dashboard.stripe.com/payment-links
+const STRIPE_CHECKOUT_URL = ''
+
 const SUPABASE_URL = 'https://epjkxahwfhwnbilqhihy.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamt4YWh3Zmh3bmJpbHFoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNTEyNzUsImV4cCI6MjA4ODYyNzI3NX0.6tQTIChhln_Y-CFOxw0FDe7RTiSLhhwbfrj3GmKDf3o'
 
@@ -92,7 +95,7 @@ function FoundersBanner() {
 
         {/* Value props — hidden on mobile */}
         <div className="hidden md:flex items-center gap-4">
-          {['$99/mo per location', 'Locked in forever', 'Direct founder access'].map(t => (
+          {['$149/mo per location', 'Locked in forever', 'Direct founder access'].map(t => (
             <span key={t} className="flex items-center gap-1 text-[10px]" style={{ color: C.gray }}>
               <Check size={10} style={{ color: '#22c55e' }} /> {t}
             </span>
@@ -169,36 +172,59 @@ function WaitlistForm({ variant = 'hero' }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xl mx-auto">
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Your name"
-        className="px-4 py-3 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none w-full sm:w-40"
-        style={{ background: '#1F0808', border: '1px solid #E4002B30' }}
-      />
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com"
-        required
-        className="px-4 py-3 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none w-full sm:flex-1"
-        style={{ background: '#1F0808', border: '1px solid #E4002B30' }}
-      />
-      <button type="submit" disabled={status === 'loading'}
-        className="btn-replio flex items-center gap-2 text-sm whitespace-nowrap">
-        {status === 'loading' ? (
-          <><Loader2 size={16} className="animate-spin" /> Joining...</>
-        ) : (
-          <>Join the Waitlist <ChevronRight size={16} /></>
-        )}
-      </button>
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-xl mx-auto">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Your name"
+          className="px-4 py-3 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none w-full sm:w-40"
+          style={{ background: '#1F0808', border: '1px solid #E4002B30' }}
+        />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your@email.com"
+          required
+          className="px-4 py-3 rounded-xl text-sm text-white placeholder:text-gray-500 focus:outline-none w-full sm:flex-1"
+          style={{ background: '#1F0808', border: '1px solid #E4002B30' }}
+        />
+        <button type="submit" disabled={status === 'loading'}
+          className="btn-replio flex items-center gap-2 text-sm whitespace-nowrap">
+          {status === 'loading' ? (
+            <><Loader2 size={16} className="animate-spin" /> Joining...</>
+          ) : (
+            <>Join the Waitlist <ChevronRight size={16} /></>
+          )}
+        </button>
+      </form>
       {status === 'error' && (
-        <p className="text-xs w-full text-center" style={{ color: C.red }}>{errorMsg}</p>
+        <p className="text-xs w-full text-center mt-2" style={{ color: C.red }}>{errorMsg}</p>
       )}
-    </form>
+      {STRIPE_CHECKOUT_URL && (
+        <div className="flex items-center justify-center gap-3 mt-4">
+          <div className="h-px flex-1 max-w-16" style={{ background: '#E4002B25' }} />
+          <span className="text-[10px] uppercase tracking-widest" style={{ color: C.muted }}>or</span>
+          <div className="h-px flex-1 max-w-16" style={{ background: '#E4002B25' }} />
+        </div>
+      )}
+      {STRIPE_CHECKOUT_URL && (
+        <div className="text-center mt-4">
+          <a
+            href={STRIPE_CHECKOUT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white no-underline transition-all hover:scale-[1.02] active:scale-[0.97]"
+            style={{ background: '#22c55e', boxShadow: '0 0 20px rgba(34,197,94,0.3)' }}
+          >
+            Start Now — $149/mo <ChevronRight size={16} />
+          </a>
+          <p className="text-[10px] mt-2" style={{ color: C.muted }}>Skip the waitlist · Get instant access</p>
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -998,12 +1024,12 @@ function FinalCTA() {
 
         <p className="font-body text-base mb-6 max-w-xl mx-auto" style={{ color: C.muted }}>
           Birdeye charges $299/mo. Podium charges $449/mo. Neither was built for QSR operators.
-          Replio was built by one — and founding operators lock in <span style={{ color: '#22c55e', fontWeight: 600 }}>$99/mo forever</span>.
+          Replio was built by one — and founding operators lock in <span style={{ color: '#22c55e', fontWeight: 600 }}>$149/mo forever</span>.
         </p>
 
         <div className="flex items-center justify-center gap-3 mb-10">
-          <span className="font-mono-jb text-3xl font-bold" style={{ color: '#22c55e' }}>$99</span>
-          <span className="font-mono-jb text-lg" style={{ color: C.muted, textDecoration: 'line-through' }}>$149</span>
+          <span className="font-mono-jb text-3xl font-bold" style={{ color: '#22c55e' }}>$149</span>
+          <span className="font-mono-jb text-lg" style={{ color: C.muted, textDecoration: 'line-through' }}>$199</span>
           <span className="font-body text-sm" style={{ color: C.muted }}>/mo per location — locked in forever</span>
         </div>
 
@@ -1109,7 +1135,7 @@ function StickyBottomBar() {
     >
       <div className="max-w-3xl mx-auto px-4 pb-4 flex items-center justify-between gap-4">
         <div className="hidden sm:block">
-          <div className="text-sm font-syne font-bold text-white">Founding Operators — <span style={{ color: '#22c55e' }}>$99/mo</span> <span style={{ color: C.muted, fontWeight: 400, fontSize: '0.7rem', textDecoration: 'line-through' }}>$149/mo</span></div>
+          <div className="text-sm font-syne font-bold text-white">Founding Operators — <span style={{ color: '#22c55e' }}>$149/mo</span> <span style={{ color: C.muted, fontWeight: 400, fontSize: '0.7rem', textDecoration: 'line-through' }}>$199/mo</span></div>
           <div className="text-[10px] font-mono-jb" style={{ color: C.muted }}>Lock in founding price forever · 34 spots left</div>
         </div>
         <div className="flex-1 sm:flex-none">
