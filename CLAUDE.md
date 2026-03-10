@@ -136,3 +136,41 @@ gsap.registerPlugin(ScrollTrigger);
 ## Final Standard
 
 This landing page should make a QSR operator stop scrolling and think: *"Someone finally built this for me."* It should feel premium, operator-grade, and like nothing else in the restaurant tech space.
+
+---
+
+## Security Playbook
+
+### Authentication & Sessions
+- Set session expiration limits. JWT sessions should never exceed 7 days and must use refresh token rotation.
+- Never use AI-built auth. Use Clerk, Supabase, or Auth0.
+- Keep API keys strictly secured. Use process.env keys.
+
+### Secure API Development
+- Rotate secrets every 90 days minimum.
+- Verify all suggested packages before installing.
+- Always opt for newer, more secure package versions.
+- Run npm audit fix after every build.
+- Sanitize all inputs using parameterized queries always.
+
+### API & Access Control
+- Enable Row-Level Security in your DB from day one.
+- Remove all console.log statements before deploying production domain.
+- Use CORS to restrict access to your allow-listed production domain.
+- Validate all redirect URLs against an allow-list.
+- Add auth and rate limiting to every endpoint.
+
+### Data & Infrastructure
+- Cap AI API costs within your code and dashboard.
+- Add DDoS protection via Cloudflare or Vercel edge config.
+- Lock down storage access so users can only use their own files.
+- Validate upload limits by signature, not by extension.
+- Verify webhook signatures before processing payment data.
+
+### Other Rules
+- Review permissions server-side — UI-level checks are not security.
+- Log critical actions: deletions, role changes, payments, exports.
+- Build real account deletion flows.
+- Automate backups then actually test them. An untested backup is useless.
+- Keep test and production environments fully separate.
+- Never let webhooks touch real systems in the test environment.
