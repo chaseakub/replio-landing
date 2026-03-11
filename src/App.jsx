@@ -930,17 +930,27 @@ function SocialProof() {
           <p className="font-playfair italic text-xl md:text-2xl leading-relaxed mb-6" style={{ color: C.gray, maxWidth: 700, paddingTop: 24 }}>
             I used to respond to reviews at 11pm. Sitting on the couch with 7 apps open, trying to write something thoughtful to a guest who had a bad experience 3 days ago. 3 days. That guest already told their friends. Already decided not to come back. That's not sustainable. So I built the tool I wish existed.
           </p>
-          <div className="flex items-center gap-4">
-            <div style={{
-              width: 48, height: 48, borderRadius: '50%',
-              background: `linear-gradient(135deg, ${C.darkred}, ${C.red})`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontFamily: 'Syne', fontWeight: 700, color: '#fff', fontSize: '1rem'
-            }}>CK</div>
-            <div>
-              <div className="font-syne font-bold" style={{ color: '#fff' }}>Chase Kubala</div>
-              <div className="font-mono-jb text-xs" style={{ color: C.muted }}>Multi-Unit Chick-fil-A Operating Partner · Houston, TX</div>
-            </div>
+          <div className="font-mono-jb text-xs uppercase tracking-widest mb-6 mt-8" style={{ color: C.red }}>Meet the Founding Team</div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { initials: 'CK', name: 'Chase Kubala', title: 'Founder & CEO', desc: 'Multi-Unit Chick-fil-A Operating Partner · Houston, TX' },
+              { initials: 'CQ', name: 'Carter Quandt', title: 'Founding Partner', desc: 'Sales & Growth · Houston, TX' },
+              { initials: 'CS', name: 'Chazz Spiers', title: 'Founding Partner', desc: 'Sales & Partnerships · Houston, TX' },
+            ].map((f) => (
+              <div key={f.initials} className="flex items-start gap-4">
+                <div style={{
+                  width: 48, height: 48, borderRadius: '50%', flexShrink: 0,
+                  background: `linear-gradient(135deg, ${C.darkred}, ${C.red})`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'Syne', fontWeight: 700, color: '#fff', fontSize: '0.85rem'
+                }}>{f.initials}</div>
+                <div>
+                  <div className="font-syne font-bold" style={{ color: '#fff' }}>{f.name}</div>
+                  <div className="font-mono-jb text-xs font-bold" style={{ color: C.red }}>{f.title}</div>
+                  <div className="font-body text-xs mt-1" style={{ color: C.muted }}>{f.desc}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -1024,7 +1034,7 @@ function FinalCTA() {
 
         <p className="font-body text-base mb-6 max-w-xl mx-auto" style={{ color: C.muted }}>
           Birdeye charges $299/mo. Podium charges $449/mo. Neither was built for QSR operators.
-          Replio was built by one — and founding operators lock in <span style={{ color: '#22c55e', fontWeight: 600 }}>$149/mo forever</span>.
+          Replio was built by operators, for operators — and founding customers lock in <span style={{ color: '#22c55e', fontWeight: 600 }}>$149/mo forever</span>.
         </p>
 
         <div className="flex items-center justify-center gap-3 mb-10">
