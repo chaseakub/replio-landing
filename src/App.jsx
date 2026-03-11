@@ -10,6 +10,18 @@ const STRIPE_CHECKOUT_URL = ''
 const SUPABASE_URL = 'https://epjkxahwfhwnbilqhihy.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamt4YWh3Zmh3bmJpbHFoaWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNTEyNzUsImV4cCI6MjA4ODYyNzI3NX0.6tQTIChhln_Y-CFOxw0FDe7RTiSLhhwbfrj3GmKDf3o'
 
+const TELEGRAM_BOT_TOKEN = '8039279740:AAGC2mZMBmv7WEDEFyJuVtdG8x0TppTSrVs'
+const TELEGRAM_CHAT_ID = '6508066474'
+
+async function sendTelegramNotification(name, email) {
+  const message = `🚨 New Waitlist Signup!\n\nName: ${name}\nEmail: ${email}\nSource: Landing Page\nTime: ${new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })}`
+  await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message }),
+  }).catch(() => {})
+}
+
 async function insertWaitlist({ email, name }) {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
     method: 'POST',
@@ -25,6 +37,7 @@ async function insertWaitlist({ email, name }) {
     const err = await res.json().catch(() => ({}))
     throw new Error(err.message || `Error ${res.status}`)
   }
+  sendTelegramNotification(name, email)
 }
 
 // ─── Countdown Timer ─────────────────────────────────────────────────────────
