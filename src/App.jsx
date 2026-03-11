@@ -934,8 +934,8 @@ function SocialProof() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               { initials: 'CK', name: 'Chase Kubala', title: 'Founder & CEO', desc: 'Multi-Unit Chick-fil-A Operating Partner · Houston, TX' },
-              { initials: 'CQ', name: 'Carter Quandt', title: 'President / COO', desc: 'Second-in-command. Runs day-to-day operations and executes the CEO\'s vision.' },
-              { initials: 'CS', name: 'Chazz Spiers', title: 'President / COO', desc: 'Second-in-command. Runs day-to-day operations and executes the CEO\'s vision.' },
+              { initials: 'CQ', name: 'Carter Quandt', title: 'President / COO', desc: 'Oversees daily operations and drives strategic growth initiatives.' },
+              { initials: 'CS', name: 'Chazz Spiers', title: 'President / COO', desc: 'Oversees daily operations and drives strategic growth initiatives.' },
             ].map((f) => (
               <div key={f.initials} className="flex items-start gap-4">
                 <div style={{
